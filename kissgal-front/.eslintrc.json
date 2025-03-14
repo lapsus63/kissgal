@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "ignorePatterns": [],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "max-len": [
+          "error",
+          {
+            "code": 200
+          }
+        ],
+        "prettier/prettier": [
+          "error",
+          {
+            "printWidth": 200,
+            "proseWrap": "preserve"
+          }
+        ],
+        "@angular-eslint/no-output-native": "off",
+        "@angular-eslint/no-host-metadata-property": "off"
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    }
+  ]
+}

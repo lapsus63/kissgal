@@ -1,0 +1,85 @@
+spring.application.name: "kissgal-back"
+
+
+application:
+  swagger:
+    title: Swagger for kissgal-back
+    description: Backend tier for Kissgal application
+    contactEmail: lapsus63@gmail.com
+  instance: ${APP_INSTANCE}
+  version: DEV
+  build-date: DEV
+  deploy-date: DEV
+  cors:
+    allowedOrigins: ${SPRING_APP_ALLOWED_ORIGINS}
+
+## Server connections configuration
+server:
+  max-http-request-header-size: 8KB # default is 8KB
+  tomcat:
+    max-http-form-post-size: 2MB
+
+management:
+  endpoints.web.exposure.include: 'datasource,health,info,metrics'
+  prometheus.metrics.export.enabled: true
+  health.readinessState.enabled: true
+  health.livenessStateenabled: true
+  endpoint:
+    metrics.access: READ_ONLY
+    datasource.enabled: true
+    prometheus.access: READ_ONLY
+    jvm.enabled: true
+    health:
+      access: READ_ONLY
+      probes.enabled: true
+      show-details: always
+    info.access: READ_ONLY
+    loggers.access: READ_ONLY
+    httptrace.enabled: true
+    threaddump.access: READ_ONLY
+    env.access: READ_ONLY
+    beans.access: READ_ONLY
+    configprops.access: READ_ONLY
+    mappings.access: READ_ONLY
+    trace.enabled: true
+    heapdump.access: READ_ONLY
+    jolokia.enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+  group-configs[0]:
+    group: ALL
+    paths-to-match: /**
+  group-configs[1]:
+    group: V1
+    paths-to-match: /api/v1/**
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE_BACKEND}
+  datasource:
+    url: ${POSTGRE_URL}
+    driverClassName: org.postgresql.Driver
+    username: ${POSTGRE_USERNAME}
+    password: ${POSTGRE_PASSWORD}
+  jpa:
+    show-sql: ${POSTGRE_SHOW_SQL}
+    properties:
+      hibernate:
+        jdbc:
+          lob.non_contextual_creation: true
+          batch_size: 5000 # batch size https://www.baeldung.com/jpa-hibernate-batch-insert-update
+          order_inserts: true # batch all insert statements of the same entity type
+          batch_versioned_data: true
+          order_updates: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: classpath:/liquibase/changelog/changelog_master.yml
+    driver-class-name: org.postgresql.Driver
+    user: ${POSTGRE_USERNAME}
+    password: ${POSTGRE_PASSWORD}

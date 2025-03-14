@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  oni-db:
+    image: postgres:16
+    user: 999:999
+    environment:
+      POSTGRES_DB: kissgal
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: kissgal
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata-kissgal:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata-kissgal:

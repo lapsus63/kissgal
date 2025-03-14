@@ -1,0 +1,10 @@
+<div>
+    HelloWorld
+</div>
+<mat-grid-list cols="4" rowHeight="2:1">
+    <mat-grid-tile class="card-{{tile.text}}" *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
+        <mat-card >{{ tile.text }}</mat-card>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<router-outlet></router-outlet>

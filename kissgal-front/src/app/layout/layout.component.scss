@@ -1,0 +1,15 @@
+@use '@angular/material' as mat;
+
+.card-One {
+  color: var(--mat-sys-primary-fixed);
+  background: var(--mat-sys-on-primary-fixed);
+}
+.card-Two {
+  background: var(--mat-sys-on-tertiary-container);
+}
+.card-Three {
+  background: var(--mat-sys-on-primary-container);
+}
+.card-Four {
+  background: var(--mat-sys-on-secondary-container);
+}

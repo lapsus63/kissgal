@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url:
+    driverClassName:
+    username:
+    password:
+  jpa:
+    show-sql: false
+  liquibase:
+    enabled: true
+    change-log: classpath:/liquibase/changelog/900_changelog_master.yml
+    driver-class-name: org.postgresql.Driver
+    user:
+    password:
+
+application:
+  instance: test
+  cors:
+    allowedOrigins: http://localhost:4200

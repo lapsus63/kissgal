@@ -1,0 +1,5 @@
+databaseChangeLog:
+
+  - include:
+      file: 000_changelog_table.yml
+      relativeToChangelogFile: true

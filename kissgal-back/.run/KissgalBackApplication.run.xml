@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="KissgalBackApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/dev/local.env" />
+    </option>
+    <module name="kissgal-back" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.infovergne.kissgal.KissgalBackApplication" />
+    <option name="VM_PARAMETERS" value="-Xms256m -Xmx1g -Duser.timezone=GMT -Duser.country=US -Duser.language=en" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
