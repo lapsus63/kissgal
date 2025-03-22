@@ -9,9 +9,9 @@ Commençons par créer le code nécessaire pour le backend et le frontend.
 
 ### Backend (Spring Boot)
 
+1. Ajoutez les dépendances Maven requises dans votre pom.xml
 
 ```xml
-<!-- 1. Ajoutez les dépendances Maven requises dans votre pom.xml -->
 <!-- pom.xml -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -43,12 +43,11 @@ Commençons par créer le code nécessaire pour le backend et le frontend.
     <artifactId>totp</artifactId>
     <version>1.7.1</version>
 </dependency>
-
 ```
 
-```java
+2. Créez le modèle d'utilisateur
 
-// 2. Créez le modèle d'utilisateur
+```java
 // src/main/java/com/example/auth/model/User.java
 package com.example.auth.model;
 
@@ -76,48 +75,12 @@ public class User {
     private String mfaSecret;
 
     // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isMfaEnabled() {
-        return mfaEnabled;
-    }
-
-    public void setMfaEnabled(boolean mfaEnabled) {
-        this.mfaEnabled = mfaEnabled;
-    }
-
-    public String getMfaSecret() {
-        return mfaSecret;
-    }
-
-    public void setMfaSecret(String mfaSecret) {
-        this.mfaSecret = mfaSecret;
-    }
 }
+```
 
-// 3. Créez le repository pour l'utilisateur
+3. Créez le repository pour l'utilisateur
+
+```java
 // src/main/java/com/example/auth/repository/UserRepository.java
 package com.example.auth.repository;
 
@@ -132,8 +95,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     Boolean existsByUsername(String username);
 }
+```
+4. Créez le service TOTP pour gérer la 2FA
 
-// 4. Créez le service TOTP pour gérer la 2FA
+```java
 // src/main/java/com/example/auth/service/TotpService.java
 package com.example.auth.service;
 
@@ -197,8 +162,11 @@ public class TotpService {
         return codeVerifier.isValidCode(secret, code);
     }
 }
+```
 
-// 5. Créez les DTO pour l'authentification
+5. Créez les DTO pour l'authentification
+
+```java
 // src/main/java/com/example/auth/payload/request/LoginRequest.java
 package com.example.auth.payload.request;
 
@@ -207,21 +175,6 @@ public class LoginRequest {
     private String password;
 
     // Getters and setters
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
 
 // src/main/java/com/example/auth/payload/request/VerifyCodeRequest.java
@@ -232,21 +185,6 @@ public class VerifyCodeRequest {
     private String code;
 
     // Getters and setters
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 }
 
 // src/main/java/com/example/auth/payload/response/JwtResponse.java
@@ -276,56 +214,12 @@ public class JwtResponse {
     }
 
     // Getters and setters
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public boolean isMfaEnabled() {
-        return mfaEnabled;
-    }
-
-    public void setMfaEnabled(boolean mfaEnabled) {
-        this.mfaEnabled = mfaEnabled;
-    }
-
-    public String getQrCodeImage() {
-        return qrCodeImage;
-    }
-
-    public void setQrCodeImage(String qrCodeImage) {
-        this.qrCodeImage = qrCodeImage;
-    }
 }
+```
 
-// 6. Créez le contrôleur d'authentification
+6. Créez le contrôleur d'authentification
+
+```java
 // src/main/java/com/example/auth/controller/AuthController.java
 package com.example.auth.controller;
 
@@ -438,8 +332,11 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("2FA désactivé avec succès"));
     }
 }
+```
 
-// 7. Créez la configuration de sécurité
+7. Créez la configuration de sécurité
+
+```java
 // src/main/java/com/example/auth/security/WebSecurityConfig.java
 package com.example.auth.security;
 
@@ -503,8 +400,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
+```
 
-// 8. Créez les classes JWT
+8. Créez les classes JWT
+
+```java
 // src/main/java/com/example/auth/security/jwt/JwtUtils.java
 package com.example.auth.security.jwt;
 
@@ -651,8 +551,11 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Erreur: Non autorisé");
     }
 }
+```
 
-// 9. Créez le UserDetails service
+9. Créez le UserDetails service
+
+```java
 // src/main/java/com/example/auth/security/services/UserDetailsServiceImpl.java
 package com.example.auth.security.services;
 
@@ -725,58 +628,13 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public boolean isMfaEnabled() {
-        return mfaEnabled;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UserDetailsImpl user = (UserDetailsImpl) o;
-        return Objects.equals(id, user.id);
-    }
 }
+```
 
-// 10. Créez le fichier application.properties
-// src/main/resources/application.properties
+10. Créez le fichier application.properties
+
+```properties
+# src/main/resources/application.properties
 spring.datasource.url=jdbc:mysql://localhost:3306/auth_db?useSSL=false
 spring.datasource.username=root
 spring.datasource.password=password
@@ -784,7 +642,6 @@ spring.datasource.password=password
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 spring.jpa.hibernate.ddl-auto=update
 
-# App Properties
 app.jwtSecret=votreClefSecreteJWTQuiDoitEtreTresLongueEtComplexePourLaSecurite
 app.jwtExpirationMs=86400000
 ```
@@ -792,8 +649,9 @@ app.jwtExpirationMs=86400000
 
 ### Frontend (Angular)
 
-```javascript
-// 1. Créez les services d'authentification et de token
+1. Créez les services d'authentification et de token
+
+```js
 // src/app/_services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -880,20 +738,23 @@ export class TokenStorageService {
     return {};
   }
 }
+```
 
-// 2. Créez l'intercepteur de requêtes HTTP pour les tokens JWT
+2. Créez l'intercepteur de requêtes HTTP pour les tokens JWT
+
+```js
 // src/app/_helpers/auth.interceptor.ts
 import { HTTP_INTERCEPTORS, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-
 ```
 
 ### Exemple de formulaire d'authentification 
 
-```javascript
 
-// 1. Composant de barre de navigation avec menu d'authentification
+1. Composant de barre de navigation avec menu d'authentification
+
+```js
 // src/app/components/nav-menu/nav-menu.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../../_services/token-storage.service';
@@ -928,8 +789,10 @@ export class NavMenuComponent implements OnInit {
     this.isMenuCollapsed = !this.isMenuCollapsed;
   }
 }
+```
 
-// src/app/components/nav-menu/nav-menu.component.html
+```html
+<!-- src/app/components/nav-menu/nav-menu.component.html -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
     <a class="navbar-brand" href="#">Mon Application</a>
@@ -976,8 +839,11 @@ export class NavMenuComponent implements OnInit {
     </div>
   </div>
 </nav>
+```
 
-// 2. Composant de formulaire de connexion
+2. Composant de formulaire de connexion
+
+```js
 // src/app/components/login/login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../_services/auth.service';
@@ -1072,8 +938,10 @@ export class LoginComponent implements OnInit {
     window.location.reload();
   }
 }
+```
 
-// src/app/components/login/login.component.html
+```html
+<!-- src/app/components/login/login.component.html -->
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -1192,8 +1060,11 @@ export class LoginComponent implements OnInit {
     </div>
   </div>
 </div>
+``` 
 
-// 3. Composant de page de profil avec gestion de la 2FA
+3. Composant de page de profil avec gestion de la 2FA
+
+```js
 // src/app/components/profile/profile.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../../_services/token-storage.service';
@@ -1244,8 +1115,10 @@ export class ProfileComponent implements OnInit {
     );
   }
 }
+```
 
-// src/app/components/profile/profile.component.html
+```html
+<!-- src/app/components/profile/profile.component.html -->
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-4">
@@ -1346,8 +1219,11 @@ export class ProfileComponent implements OnInit {
     </div>
   </div>
 </div>
+```
+ 
+4. Composant d'inscription
 
-// 4. Composant d'inscription
+```js
 // src/app/components/register/register.component.ts
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../_services/auth.service';
@@ -1390,8 +1266,10 @@ export class RegisterComponent implements OnInit {
     );
   }
 }
+```
 
-// src/app/components/register/register.component.html
+```html
+<!-- src/app/components/register/register.component.html -->
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -1508,8 +1386,11 @@ export class RegisterComponent implements OnInit {
     </div>
   </div>
 </div>
+```
 
-// 5. Composant de garde d'authentification
+5. Composant de garde d'authentification
+
+```js
 // src/app/_helpers/auth.guard.ts
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -1534,8 +1415,11 @@ export class AuthGuard implements CanActivate {
         return false;
     }
 }
+```
 
-// 6. Module principal de l'application
+6. Module principal de l'application
+
+```js
 // src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -1569,8 +1453,11 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+```
 
-// 7. Configuration des routes
+7. Configuration des routes
+
+```js
 // src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -1611,13 +1498,18 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
   }
 }
+```
 
-// src/app/app.component.html
+```html
+<!-- src/app/app.component.html -->
 <app-nav-menu></app-nav-menu>
 <router-outlet></router-outlet>
+```
 
-// 9. Styles globaux
-// src/styles.scss
+9. Styles globaux
+
+```scss
+# src/styles.scss
 /* Vous pouvez importer Bootstrap ici */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
@@ -1643,5 +1535,4 @@ body {
 .btn-primary:hover {
   background-color: #0069d9;
 }
-
 ```
