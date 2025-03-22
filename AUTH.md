@@ -10,8 +10,8 @@ Commençons par créer le code nécessaire pour le backend et le frontend.
 ### Backend (Spring Boot)
 
 
-```java
-// 1. Ajoutez les dépendances Maven requises dans votre pom.xml
+```xml
+<!-- 1. Ajoutez les dépendances Maven requises dans votre pom.xml -->
 <!-- pom.xml -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -43,6 +43,10 @@ Commençons par créer le code nécessaire pour le backend et le frontend.
     <artifactId>totp</artifactId>
     <version>1.7.1</version>
 </dependency>
+
+```
+
+```java
 
 // 2. Créez le modèle d'utilisateur
 // src/main/java/com/example/auth/model/User.java
@@ -1457,6 +1461,187 @@ export class RegisterComponent implements OnInit {
                 [(ngModel)]="form.confirmPassword"
                 required
                 #confirmPassword="ngModel"
-                [ngClass]="{ 'is-invalid': f.submitted && confirmPassword
+                [ngClass]="{ 'is-invalid': f.submitted && confirmPassword.errors }"
+              />
+              <div class="invalid-feedback" *ngIf="confirmPassword.errors && f.submitted">
+                <div *ngIf="confirmPassword.errors['required']">La confirmation du mot de passe est requise</div>
+                <div *ngIf="form.confirmPassword !== form.password">
+                  Les mots de passe ne correspondent pas
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="terms"
+                name="terms"
+                [(ngModel)]="form.terms"
+                required
+                #terms="ngModel"
+                [ngClass]="{ 'is-invalid': f.submitted && terms.errors }"
+              />
+              <label class="form-check-label" for="terms">
+                J'accepte les <a href="#">termes et conditions</a>
+              </label>
+              <div class="invalid-feedback" *ngIf="terms.errors && f.submitted">
+                Vous devez accepter les termes et conditions
+              </div>
+            </div>
+            <div class="d-grid">
+              <button class="btn btn-primary">S'inscrire</button>
+            </div>
+          </form>
+
+          <div class="alert alert-success" *ngIf="isSuccessful">
+            Inscription réussie! Vous allez être redirigé vers la page de connexion...
+          </div>
+
+          <div class="alert alert-danger" *ngIf="isSignUpFailed">
+            Échec de l'inscription: {{ errorMessage }}
+          </div>
+        </div>
+        <div class="card-footer text-center">
+          <p class="mb-0">Vous avez déjà un compte? <a routerLink="/login">Se connecter</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+// 5. Composant de garde d'authentification
+// src/app/_helpers/auth.guard.ts
+import { Injectable } from '@angular/core';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { TokenStorageService } from '../_services/token-storage.service';
+
+@Injectable({ providedIn: 'root' })
+export class AuthGuard implements CanActivate {
+    constructor(
+        private router: Router,
+        private tokenStorage: TokenStorageService
+    ) { }
+
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const token = this.tokenStorage.getToken();
+        if (token) {
+            // Utilisateur connecté
+            return true;
+        }
+
+        // L'utilisateur n'est pas connecté, redirection vers la page de connexion
+        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+        return false;
+    }
+}
+
+// 6. Module principal de l'application
+// src/app/app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { ProfileComponent } from './components/profile/profile.component';
+
+import { authInterceptorProviders } from './_helpers/auth.interceptor';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    NavMenuComponent,
+    ProfileComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
+  ],
+  providers: [authInterceptorProviders],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+// 7. Configuration des routes
+// src/app/app-routing.module.ts
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AuthGuard } from './_helpers/auth.guard';
+
+const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+// 8. Composant principal de l'application
+// src/app/app.component.ts
+import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from './_services/token-storage.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit {
+  title = 'angular-2fa-app';
+
+  constructor(private tokenStorageService: TokenStorageService) { }
+
+  ngOnInit(): void {
+  }
+}
+
+// src/app/app.component.html
+<app-nav-menu></app-nav-menu>
+<router-outlet></router-outlet>
+
+// 9. Styles globaux
+// src/styles.scss
+/* Vous pouvez importer Bootstrap ici */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+body {
+  background-color: #f8f9fa;
+  padding-bottom: 50px;
+}
+
+.card {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
 
 ```
