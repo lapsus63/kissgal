@@ -16,6 +16,7 @@ application:
 ## Server connections configuration
 server:
   max-http-request-header-size: 8KB # default is 8KB
+  port: 8084
   tomcat:
     max-http-form-post-size: 2MB
 
@@ -83,3 +84,13 @@ spring:
     driver-class-name: org.postgresql.Driver
     user: ${POSTGRE_USERNAME}
     password: ${POSTGRE_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8083/realms/infovergne/protocol/openid-connect/certs
+
+keycloak:
+  resource: kissgal-back
+  realm: infovergne
+  auth-server-url: http://localhost:8083
