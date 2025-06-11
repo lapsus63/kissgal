@@ -1,26 +1,25 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from './layout/layout.component';
-import { Title } from '@angular/platform-browser';
-import { environment } from '../environments/environment';
-import { AuthGuard } from './shared/utils/auth.guard';
-import { ROLE_ANY } from './shared/utils/constants';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {LayoutComponent} from './layout/layout.component';
+import {Title} from '@angular/platform-browser';
+import {environment} from '../environments/environment';
+import {ROLE_ANY, ROLE_USER} from './shared/utils/constants';
+import {canActivateAuthRole} from "./shared/utils/auth.guard";
 import {HomeComponent} from "./pages/home/home.component";
+import {HomeguardComponent} from "./pages/homeguard/homeguard.component";
+import {ForbiddenComponent} from "./pages/forbidden/forbidden.component";
+import {NotFoundComponent} from "./pages/notfound/notfound.component";
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: LayoutComponent,
-        children: [
-            {
-                path: '',
-                data: { roles: ROLE_ANY },
-                canActivate: [AuthGuard],
-                loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule)
-            }
-        ]
-    },
-    { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '', component: HomeComponent },
+  {
+    path: 'homeguard',
+    component: HomeguardComponent,
+    canActivate: [canActivateAuthRole],
+    data: { roles: ROLE_USER }
+  },
+  { path: 'forbidden', component: ForbiddenComponent },
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

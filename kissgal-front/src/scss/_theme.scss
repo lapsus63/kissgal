@@ -4,20 +4,110 @@
 // https://material.angular.io/guide/system-variables
 // https://material.angular.io/guide/theming-your-components
 @use '@angular/material' as mat;
+@use './_theme-colors' as palettes;
 
+// Include the common styles for Angular Material
+@include mat.core();
+
+/*
+    **Couleurs principales :**
+    - `primary` - Couleur principale de l'application (boutons, liens actifs)
+    - `secondary` - Couleur secondaire pour les accents
+    - `tertiary` - Couleur tertiaire pour les éléments moins importants
+    - `error` - Pour les erreurs et alertes
+    - `surface` - Couleurs de surface (cartes, menus, modales)
+    - `background` - Couleur de fond principale
+
+    **Variantes de couleurs :**
+    Chaque couleur a plusieurs variantes :
+    - `primary`, `on-primary` (texte sur fond primary)
+    - `primary-container`, `on-primary-container`
+    - `surface`, `on-surface`, `surface-variant`, `on-surface-variant`
+
+    ## Conventions spécifiques
+
+    **Texte :**
+    - `on-surface` - Texte principal sur fond clair/sombre
+    - `on-surface-variant` - Texte secondaire, moins contrasté
+    - `on-primary` - Texte sur fond coloré (boutons)
+    - `outline` - Bordures et séparateurs
+
+    **Fonds :**
+    - `background` - Fond principal de la page
+    - `surface` - Cartes, menus déroulants, modales
+    - `surface-container` - Conteneurs élevés
+    - `surface-container-low/high` - Différents niveaux d'élévation
+
+    **Menus et navigation :**
+    - `surface-container` - Fond des menus
+    - `primary-container` - Éléments sélectionnés dans les menus
+    - `on-surface-variant` - Icônes de navigation
+ */
+
+// Light theme
+$light-theme: mat.define-theme(
+    (
+  color: (
+    theme-type: light,
+    primary: palettes.$primary-palette,
+    tertiary: palettes.$tertiary-palette
+  ),
+  typography: (
+    plain-family: 'Roboto, "Helvetica Neue", sans-serif'
+  ),
+  density: (
+    scale: -1
+  )
+));
+
+// Dark theme
+$dark-theme: mat.define-theme(
+    (
+  color: (
+    theme-type: dark,
+    primary: palettes.$primary-palette,
+    tertiary: palettes.$tertiary-palette,
+  ),
+  typography: (
+    plain-family: 'Roboto, "Helvetica Neue", sans-serif'
+  ),
+  density: (
+    scale: -1
+  )
+));
+
+
+// Apply the light theme by default wrapped in html selector
 html {
-  color-scheme: dark;
-  @include mat.theme((
-          color: (
-                  primary: mat.$violet-palette,
-                  tertiary: mat.$orange-palette,
-                  theme-type: light,
-          ),
-          typography: Roboto,
-          density: -2
-  ));
+  @include mat.all-component-themes($light-theme);
+  // Extract theme colors as CSS custom properties
+  --primary-color: #{mat.get-theme-color($light-theme, primary)};
+  --primary-container: #{mat.get-theme-color($light-theme, primary, 90)};
+  --on-primary: #{mat.get-theme-color($light-theme, primary, 100)};
+  --surface: #{mat.get-theme-color($light-theme, surface)};
+  --on-surface: #{mat.get-theme-color($light-theme, on-surface)};
+
 }
 
+
+// Apply dark theme when dark-mode class is present on body
 body.dark-mode {
+  @include mat.all-component-themes($dark-theme);
+  // Override custom properties for dark theme
+  --primary-color: #{mat.get-theme-color($dark-theme, primary)};
+  --primary-container: #{mat.get-theme-color($dark-theme, primary, 90)};
+  --on-primary: #{mat.get-theme-color($dark-theme, primary, 100)};
+  --surface: #{mat.get-theme-color($dark-theme, surface)};
+  --on-surface: #{mat.get-theme-color($dark-theme, on-surface)};
+
   color-scheme: dark;
+  background-color: #303030;
+  color: #ffffff;
+}
+
+// Light theme specific styles
+body:not(.dark-mode) {
+  color-scheme: light;
+  background-color: #ffffff;
+  color: rgba(0, 0, 0, 0.87);
 }

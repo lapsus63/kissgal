@@ -1,25 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import {User} from "../../shared/model/user";
-import {UserService} from "../../shared/services/user.service";
+import { Component, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BehaviorSubject, timer } from 'rxjs';
 
 @Component({
-  templateUrl: 'home.component.html',
-  standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  imports: [CommonModule]
 })
-export class HomeComponent implements OnInit {
-  date: Date = new Date();
-  userObject: User;
-  number = 1234567.89;
-  dateLocale: string;
-  numberLocale: string;
-  locale: string;
+export class HomeComponent implements OnDestroy {
+  private copyMessageSubject = new BehaviorSubject<string | null>(null);
+  copyMessage$ = this.copyMessageSubject.asObservable(); // Expose as Observable
 
-  constructor(private readonly userService: UserService) {}
+  copyToClipboard(text: string): void {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        this.copyMessageSubject.next(`"${text}" copied to clipboard!`);
+        timer(3000).subscribe(() => this.copyMessageSubject.next(null));
+      })
+      .catch((err) => {
+        this.copyMessageSubject.next('Failed to copy text. Please try again.');
+      });
+  }
 
-  ngOnInit(): void {
-    this.userService.user$.subscribe((user) => {
-      this.userObject = user;
-      this.locale = this.userObject ? this.userObject.locale : 'en';
-    });
+  ngOnDestroy(): void {
+    this.copyMessageSubject.complete();
   }
 }
