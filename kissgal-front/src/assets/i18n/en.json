@@ -1,5 +1,9 @@
 {
   "HomePage": {
+    "Title": "Kissgal",
     "Home": "Home"
+  },
+  "Menu": {
+    "Login": "Login"
   }
 }
