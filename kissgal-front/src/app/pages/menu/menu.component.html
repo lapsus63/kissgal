@@ -1,18 +1,33 @@
 <nav class="menu">
-  <div class="developer-status"><strong>Keycloak Events:</strong> {{ keycloakStatus }}</div>
+    <div>
+        <img ngSrc="assets/icons/favicon_032.png" alt="Kissgal_Logo" height="32" width="32"/>
+    </div>
 
-  <div class="actions">
-    <a routerLink="/" class="action-item">Home</a>
-    <a routerLink="/books" class="action-item" *kaHasRoles="['view-books']">My Books</a>
-    <a routerLink="/profile" class="action-item" *kaHasRoles="['view-profile']">My Profile</a>
-    @if (!authenticated) {
-      <button class="action-item" (click)="login()">Login</button>
-    } @else {
-      <button class="action-item" (click)="logout()">Logout</button>
-    }
-  </div>
-  <button mat-icon-button class="action-item" (click)="toggleDarkMode()">
-    <mat-icon>{{ (isDarkMode$ | async) ? 'dark_mode' : 'light_mode' }}</mat-icon>
-  </button>
+    <div>
+        <div class="hamburger-menu">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item routerLink="/">Home</a>
+                <a mat-menu-item routerLink="/books" *kaHasRoles="['view-books']">My Books</a>
+                <a mat-menu-item routerLink="/profile" *kaHasRoles="['view-profile']">My Profile</a>
+                <a mat-menu-item href="#" *ngIf="!authenticated" (click)="login()">Login</a>
+                <a mat-menu-item href="#" *ngIf="authenticated" (click)="logout()">Logout</a>
+            </mat-menu>
+        </div>
+        <div class="standard-menu">
+            <a routerLink="/" class="action-item">Home</a>
+            <a routerLink="/books" class="action-item" *kaHasRoles="['view-books']">My Books</a>
+            <a routerLink="/profile" class="action-item" *kaHasRoles="['view-profile']">My Profile</a>
+            <a href="#" class="action-item" *ngIf="!authenticated" (click)="login()">Login</a>
+            <a href="#" class="action-item" *ngIf="authenticated" (click)="logout()">Logout</a>
+        </div>
+    </div>
 
+    <div>
+        <button mat-icon-button class="action-item" (click)="toggleDarkMode()">
+            <mat-icon>{{ (isDarkMode$ | async) ? 'dark_mode' : 'light_mode' }}</mat-icon>
+        </button>
+    </div>
 </nav>

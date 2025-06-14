@@ -3,6 +3,7 @@
 
 // https://material.angular.io/guide/system-variables
 // https://material.angular.io/guide/theming-your-components
+// https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
 @use '@angular/material' as mat;
 @use './_theme-colors' as palettes;
 
@@ -42,6 +43,7 @@
     - `surface-container` - Fond des menus
     - `primary-container` - Éléments sélectionnés dans les menus
     - `on-surface-variant` - Icônes de navigation
+
  */
 
 // Light theme
@@ -81,33 +83,44 @@ $dark-theme: mat.define-theme(
 html {
   @include mat.all-component-themes($light-theme);
   // Extract theme colors as CSS custom properties
-  --primary-color: #{mat.get-theme-color($light-theme, primary)};
-  --primary-container: #{mat.get-theme-color($light-theme, primary, 90)};
-  --on-primary: #{mat.get-theme-color($light-theme, primary, 100)};
-  --surface: #{mat.get-theme-color($light-theme, surface)};
-  --on-surface: #{mat.get-theme-color($light-theme, on-surface)};
+  --body-background: #{mat.get-theme-color($light-theme, secondary, 70)}; /* body background */
 
+  --primary: #{mat.get-theme-color($light-theme, primary, 10)}; /* principal text color */
+  --primary-outline: #{mat.get-theme-color($light-theme, primary, 60)};  /* principal border color */
+  --primary-warning: #{mat.get-theme-color($light-theme, primary)};  /* principal warning text color */
+  --primary-error: #{mat.get-theme-color($light-theme, error)};  /* principal error text color */
+  --primary-background: #{mat.get-theme-color($light-theme, primary, 80)};  /* background for primary elements */
+
+  --secondary: #{mat.get-theme-color($light-theme, secondary, 10)};  /* secondary text color */
+  --secondary-outline: #{mat.get-theme-color($light-theme, secondary, 60)};  /* principal border color */
+  --secondary-warning: #{mat.get-theme-color($light-theme, secondary)};  /* principal warning text color */
+  --secondary-error: #{mat.get-theme-color($light-theme, error)};  /* principal error text color */
+  --secondary-background: #{mat.get-theme-color($light-theme, secondary, 80)};  /* background for secondary elements */
+
+  --component-background: #{mat.get-theme-color($light-theme, primary, 50)};  /* background for for components */
+
+  color-scheme: light;
 }
-
 
 // Apply dark theme when dark-mode class is present on body
 body.dark-mode {
   @include mat.all-component-themes($dark-theme);
-  // Override custom properties for dark theme
-  --primary-color: #{mat.get-theme-color($dark-theme, primary)};
-  --primary-container: #{mat.get-theme-color($dark-theme, primary, 90)};
-  --on-primary: #{mat.get-theme-color($dark-theme, primary, 100)};
-  --surface: #{mat.get-theme-color($dark-theme, surface)};
-  --on-surface: #{mat.get-theme-color($dark-theme, on-surface)};
+  // Extract theme colors as CSS custom properties
+  --body-background: #{mat.get-theme-color($dark-theme, secondary, 30)}; /* body background */
+
+  --primary: #{mat.get-theme-color($dark-theme, primary, 90)}; /* principal text color */
+  --primary-outline: #{mat.get-theme-color($dark-theme, primary, 60)};  /* principal border color */
+  --primary-warning: #{mat.get-theme-color($dark-theme, primary)};  /* principal warning text color */
+  --primary-error: #{mat.get-theme-color($dark-theme, error)};  /* principal error text color */
+  --primary-background: #{mat.get-theme-color($dark-theme, primary, 20)};  /* background for primary elements */
+
+  --secondary: #{mat.get-theme-color($dark-theme, secondary, 90)};  /* secondary text color */
+  --secondary-outline: #{mat.get-theme-color($dark-theme, secondary, 60)};  /* principal border color */
+  --secondary-warning: #{mat.get-theme-color($dark-theme, secondary)};  /* principal warning text color */
+  --secondary-error: #{mat.get-theme-color($dark-theme, error)};  /* principal error text color */
+  --secondary-background: #{mat.get-theme-color($dark-theme, secondary, 20)};  /* background for secondary elements */
+
+  --component-background: #{mat.get-theme-color($dark-theme, primary, 50)};  /* background for for components */
 
   color-scheme: dark;
-  background-color: #303030;
-  color: #ffffff;
-}
-
-// Light theme specific styles
-body:not(.dark-mode) {
-  color-scheme: light;
-  background-color: #ffffff;
-  color: rgba(0, 0, 0, 0.87);
 }
