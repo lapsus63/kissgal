@@ -1,37 +1,48 @@
+/*
+ * Hamburger menu
+ */
+.hamburger-menu {
+    display: none;
+}
+@media (max-width: 768px) {
+  .standard-menu {
+    display: none;
+  }
+  .hamburger-menu {
+    display: block;
+  }
+}
+
+/*
+ * Menu disposition
+ */
 .menu {
-  display: flex;
-  justify-content: space-between;
-  background: var(--surface);
   padding: 10px;
-  color: var(--on-surface);
-  align-items: center;
-}
-
-.developer-status {
-  border-color: #f0ad4e;
-  border-style: dotted;
-  border-width: medium;
-  width: fit-content;
-  padding: 10px 20px;
-}
-
-.actions {
+  /* alignment */
   display: flex;
-  justify-content: end;
-  padding: 10px 20px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: stretch;
 }
-
-.action-item {
-  padding: 5px 15px;
-  margin-left: 25px;
+.menu div:nth-child(1) {
+  flex: 0 1 auto;
+  align-self: center;
+}
+.menu div:nth-child(2) {
+  flex: 1 1 auto;
+  align-self: center;
+}
+.menu div:nth-child(3) {
+  flex: 0 1 auto;
+  align-self: center;
 }
 
 a.action-item {
-  color: #3c3c3c;
-  text-decoration: none;
-}
-
-a.action-item:hover {
-  background: #bfbfbf;
+  border-style: solid;
+  border-width: 1px;
   border-radius: 5px;
+  padding: 5px 15px;
+  margin-left: 15px;
 }

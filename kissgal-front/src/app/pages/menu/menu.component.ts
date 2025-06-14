@@ -12,11 +12,13 @@ import {
 import Keycloak from "keycloak-js";
 import {ThemeService} from "../../shared/services/theme.service";
 import {MatIcon} from "@angular/material/icon";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf, NgOptimizedImage} from "@angular/common";
+import {MatIconButton} from "@angular/material/button";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
   selector: 'app-menu',
-  imports: [RouterModule, HasRolesDirective, MatIcon, AsyncPipe],
+  imports: [RouterModule, HasRolesDirective, MatIcon, AsyncPipe, NgIf, NgOptimizedImage, MatIconButton, MatMenu, MatMenuItem, MatMenuTrigger],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })

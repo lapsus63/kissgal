@@ -1,1 +1,36 @@
-@use 'theme';
+@use './theme';
+
+:root {
+  // Définir des variables CSS par défaut si nécessaires
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-color: var(--body-background);
+}
+
+body {
+  font-family: var(--font-family, 'Roboto, sans-serif');
+  background-color: var(--body-background);
+  color: var(--primary);
+  transition: background-color 0.3s ease;
+}
+
+a, a:link {
+  text-decoration: none;
+  color: var(--secondary);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary);
+  background-color: var(--body-background);
+}
+
+nav.menu {
+  color: var(--secondary);
+  background-color: var(--secondary-background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
