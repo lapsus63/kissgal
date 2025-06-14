@@ -1,5 +1,9 @@
 {
   "HomePage": {
+    "Title": "Kissgal v2",
     "Home": "Page d'accueil"
+  },
+  "Menu": {
+    "Login": "Connexion"
   }
 }
