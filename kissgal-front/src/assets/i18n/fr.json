@@ -1,7 +1,8 @@
 {
   "HomePage": {
+    "Home": "Page d'accueil",
     "Title": "Kissgal v2",
-    "Home": "Page d'accueil"
+    "Slogan": "Exposez votre talent au monde entier : créez, partagez et vendez vos œuvres en quelques clics grâce à notre galerie en ligne intuitive et accessible à tous."
   },
   "Menu": {
     "Login": "Connexion"

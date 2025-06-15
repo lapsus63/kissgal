@@ -1,6 +1,9 @@
 <nav class="menu">
     <div>
-        <a mat-menu-item routerLink="/"><img ngSrc="assets/icons/favicon_032.png" alt="Kissgal_Logo" height="32" width="32"/></a>
+        <a class="home-item" mat-menu-item routerLink="/">
+            <img ngSrc="assets/icons/favicon_032.png" alt="Kissgal_Logo" height="32" width="32"/>
+            KissGal
+        </a>
     </div>
 
     <div>
@@ -19,13 +22,13 @@
         <!-- Menu standard pour desktop -->
         <div class="standard-menu">
             <a routerLink="/books" class="action-item" *kaHasRoles="['view-books']">My Books</a>
-            <a routerLink="/profile" class="action-item" *kaHasRoles="['view-profile']">My Profile</a>
-            <a href="#" class="action-item" *ngIf="!authenticated" (click)="login()">{{'Menu.Login'|translate}}</a>
-            <a href="#" class="action-item" *ngIf="authenticated" (click)="logout()">{{'Menu.Logout'|translate}}</a>
         </div>
     </div>
 
     <div>
+        <a routerLink="/profile" class="action-item" *kaHasRoles="['view-profile']">My Profile</a>
+        <a href="#" class="action-item" *ngIf="!authenticated" (click)="login()">{{'Menu.Login'|translate}}</a>
+        <a href="#" class="action-item" *ngIf="authenticated" (click)="logout()">{{'Menu.Logout'|translate}}</a>
         <button mat-icon-button class="action-item"  *ngIf="!authenticated" (click)="toggleLanguage()">
             <img ngSrc="assets/icons/{{ currentFlag }}" alt="{{ currentLanguage }}" height="18" width="24" />
         </button>
