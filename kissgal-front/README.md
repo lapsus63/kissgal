@@ -63,6 +63,6 @@ npm-check (--skip-unused)
 
 ## Resources and links
 
-- [Flag icons](https://github.com/lipis/flag-icons/tree/main/flags/4x3)
+- [Flag icons](https://github.com/lipis/flag-icons/tree/main/flags/4x3) - [Google Fonts icons](https://fonts.google.com/icons)
 - [Material Flow Layout](https://m3.material.io/foundations/designing/flow)
 - [Angular Material Design](https://material.angular.io/components)

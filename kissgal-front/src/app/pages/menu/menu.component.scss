@@ -43,7 +43,8 @@
   vertical-align: middle;
 }
 
-a.action-item {
+span.action-item, a.action-item {
+  cursor: pointer;
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;

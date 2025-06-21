@@ -1,71 +1,53 @@
 # KissGal
 
-## Description
-
-A springboot / angular web gallery.
+Showcase your talent to the world: share your works in just a few clicks with your intuitive and accessible online gallery.
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
+- [Technical description](#technical-description)
+- [Main components](#main-components)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
-## Installation
+## Technical description
 
-### Prerequisites
+A Spring boot / angular web gallery.
 
-- Java 21 or higher
-- Maven
-- Node.js and npm
+## Main components
 
-### Steps
+- Build: Java 21 or higher, maven, node.js and npm
+- Run: Keycloak federation
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/lapsus63/kissgal.git
-    cd kissgal
-    ```
+## Project setup
 
-2. Build the backend:
-    ```sh
-   cd kissgal-back
-    mvn clean install
-    ```
+See [README.md](kissgal-back/README.md) from `kissgal-back` and [README.md](kissgal-front/README.md) from `kissgal-front` for each tier details.
 
-3. Install frontend dependencies:
-    ```sh
-    cd kissgal-front
-    npm install
-    ```
+## A few words about Authentication
 
-4. Build the frontend:
-    ```sh
-   cd kissgal-front
-    npm run build
-    ```
+- Generic help to setup a MFA authentication TOTP based in a project: [AUTH.md](AUTH.md)
 
-## Usage
+### Federated authentication using Keycloak
 
-### Running the Application
+To use Keycloak as an authentication mechanism, here is useful information about the setup :
 
-1. Start the backend:
-    ```sh
-    mvn spring-boot:run
-    ```
+<!-- cp /opt/dc_keycloak/docker-compose.yml doc/keycloak/ -->
+- Example of [docker-compose.yml](doc/keycloak/docker-compose.yml)
+- Example of kissgal-front realm configuration [kissgal-front.json](doc/keycloak/kissgal-front.json)
+- Log to the Keycloak [admin interface](http://localhost:8083/admin/master/console) (manage realms)
+- Log to the Keycloak realm management interface: localhost:8083/realms/<realm-name>/account
 
-2. Start the frontend:
-    ```sh
-    cd kissgal-front
-    npm start
-    ```
+External links:
 
-3. Open your browser and navigate to `http://localhost:4200`.
+- https://www.keycloak.org/guides#server
+- https://www.keycloak.org/getting-started/getting-started-docker
+- Angular: https://github.com/mauriciovigolo/keycloak-angular
+
+
 
 ## Contributing
 
-Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for details on our code of conduct, and the process for submitting pull requests.
+Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 

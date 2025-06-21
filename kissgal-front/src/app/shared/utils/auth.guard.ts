@@ -10,7 +10,7 @@ const isAccessAllowed = async (
   _: RouterStateSnapshot,
   authData: AuthGuardData
 ): Promise<boolean | UrlTree> => {
-  const { authenticated, grantedRoles } = authData;
+  const { authenticated, keycloak, grantedRoles } = authData;
 
   const requiredRoles = route.data['roles'];
   if (!requiredRoles) {
@@ -19,7 +19,7 @@ const isAccessAllowed = async (
   }
 
   const hasRequiredRole = (roles: string[]): boolean =>
-    Object.values(grantedRoles.resourceRoles).some(roles => requiredRoles.includes(roles));
+    Object.values(grantedRoles.resourceRoles[keycloak.clientId]).some(roles => requiredRoles.includes(roles));
 
   if (authenticated && hasRequiredRole(requiredRoles)) {
     return true;
@@ -31,21 +31,3 @@ const isAccessAllowed = async (
 };
 
 export const canActivateAuthRole = createAuthGuard<CanActivateFn>(isAccessAllowed);
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthGuard implements CanActivate {
-//   constructor(private readonly authWrapperService: AuthenticationWrapperService, private readonly router: Router) {}
-//
-//   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-//     if (state.url === '/' || this.authWrapperService.isAuthenticated()) {
-//       const requiredRoles = next.data['roles']; /* string or string[] */
-//       const userRole = this.authWrapperService.getRole();
-//       return requiredRoles?.includes(userRole) === true;
-//     } else {
-//       this.router.navigate(['/']);
-//       return false;
-//     }
-//   }
-// }
