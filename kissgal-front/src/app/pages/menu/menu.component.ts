@@ -17,10 +17,11 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {STORAGE_KEY_LANG} from "../../shared/utils/constants";
 import {Observable} from "rxjs";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-menu',
-  imports: [RouterModule, HasRolesDirective, MatIcon, AsyncPipe, NgIf, NgOptimizedImage, MatIconButton, MatMenu, MatMenuItem, MatMenuTrigger, TranslateModule],
+  imports: [RouterModule, HasRolesDirective, MatIcon, AsyncPipe, NgIf, NgOptimizedImage, MatIconButton, MatMenu, MatMenuItem, MatMenuTrigger, TranslateModule, MatDivider],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   standalone: true
@@ -61,11 +62,14 @@ export class MenuComponent implements OnInit {
   }
 
   login() {
-    this.keycloak.login();
+    this.keycloak.login().catch(error => console.log(error));
   }
 
   logout() {
-    this.keycloak.logout();
+    this.keycloak.logout({ redirectUri: window.location.origin})
+      .catch(error => {
+        console.error('Erreur de déconnexion:', error);
+      });
   }
 
   /*

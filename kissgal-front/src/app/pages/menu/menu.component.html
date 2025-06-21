@@ -1,39 +1,70 @@
 <nav class="menu">
     <div>
-        <a class="home-item" mat-menu-item routerLink="/">
-            <img ngSrc="assets/icons/favicon_032.png" alt="Kissgal_Logo" height="32" width="32"/>
-            KissGal
+      <!-- Menu hamburger pour mobile -->
+      <div class="hamburger-menu">
+        <button mat-icon-button [matMenuTriggerFor]="menuLeft">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menuLeft="matMenu">
+          <a mat-menu-item routerLink="/homeguard" *kaHasRoles="['ROLE_ADMIN']">Homeguard</a>
+          <a mat-menu-item routerLink="/profile" *kaHasRoles="['ROLE_USER']">Profile</a>
+        </mat-menu>
+        <a class="home-item" routerLink="/">
+          <img ngSrc="assets/icons/favicon_032.png" alt="Kissgal_Logo" height="32" width="32"/>
+          KissGal
         </a>
+      </div>
+      <!-- Menu standard pour desktop -->
+      <div class="standard-menu">
+        <a class="home-item" routerLink="/">
+          <img ngSrc="assets/icons/favicon_032.png" alt="Kissgal_Logo" height="32" width="32"/>
+          KissGal
+        </a>
+      </div>
     </div>
 
     <div>
-        <!-- Menu hamburger pour mobile -->
-        <div class="hamburger-menu">
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <a mat-menu-item routerLink="/books" *kaHasRoles="['view-books']">My Books</a>
-                <a mat-menu-item routerLink="/profile" *kaHasRoles="['view-profile']">My Profile</a>
-                <a mat-menu-item href="#" *ngIf="!authenticated" (click)="login()">{{'Menu.Login'|translate}}</a>
-                <a mat-menu-item href="#" *ngIf="authenticated" (click)="logout()">{{'Menu.Logout'|translate}}</a>
-            </mat-menu>
-        </div>
         <!-- Menu standard pour desktop -->
         <div class="standard-menu">
-            <a routerLink="/books" class="action-item" *kaHasRoles="['view-books']">My Books</a>
+            <a routerLink="/homeguard" class="action-item" *kaHasRoles="['ROLE_ADMIN']">Homeguard</a>
+            <a routerLink="/profile" class="action-item" *kaHasRoles="['ROLE_USER']">Profile</a>
         </div>
     </div>
 
     <div>
-        <a routerLink="/profile" class="action-item" *kaHasRoles="['view-profile']">My Profile</a>
-        <a href="#" class="action-item" *ngIf="!authenticated" (click)="login()">{{'Menu.Login'|translate}}</a>
-        <a href="#" class="action-item" *ngIf="authenticated" (click)="logout()">{{'Menu.Logout'|translate}}</a>
+      <!-- Menu hamburger pour mobile -->
+      <div class="hamburger-menu">
+        <button mat-icon-button [matMenuTriggerFor]="menuRight">
+          <mat-icon>more_vert</mat-icon>
+          <mat-menu #menuRight="matMenu">
+            <span mat-menu-item *ngIf="!authenticated" (click)="login()">{{'Menu.Login'|translate}}</span>
+            <span mat-menu-item *ngIf="authenticated" (click)="logout()">{{'Menu.Logout'|translate}}</span>
+            <mat-divider></mat-divider>
+            <button mat-icon-button class="action-item"  *ngIf="!authenticated" (click)="toggleLanguage()">
+              <img ngSrc="assets/icons/{{ currentFlag }}" alt="{{ currentLanguage }}" height="18" width="24" />
+            </button>
+            <button mat-icon-button class="action-item" (click)="toggleDarkMode()">
+              <mat-icon>{{ (isDarkMode$ | async) ? 'dark_mode' : 'light_mode' }}</mat-icon>
+            </button>
+          </mat-menu>
+        </button>
+      </div>
+      <!-- Menu standard pour desktop -->
+      <div class="standard-menu">
+        <!-- a href="#" cannot be used for keycloak login/logout : redirection process is buggy after logout -->
+        <!-- https://stackoverflow.com/questions/67106473/keycloak-session-is-not-terminated-after-successfully-logout -->
+        <button mat-icon-button class="action-item" [matMenuTriggerFor]="menuProfile">
+          <mat-icon>{{ authenticated ? 'person' : 'person_outline' }}</mat-icon>
+          <mat-menu #menuProfile="matMenu">
+            <span mat-menu-item (click)="authenticated ? logout() : login()">{{ (authenticated ? 'Menu.Logout' : 'Menu.Login') |translate}}</span>
+          </mat-menu>
+        </button>
         <button mat-icon-button class="action-item"  *ngIf="!authenticated" (click)="toggleLanguage()">
             <img ngSrc="assets/icons/{{ currentFlag }}" alt="{{ currentLanguage }}" height="18" width="24" />
         </button>
         <button mat-icon-button class="action-item" (click)="toggleDarkMode()">
             <mat-icon>{{ (isDarkMode$ | async) ? 'dark_mode' : 'light_mode' }}</mat-icon>
         </button>
+      </div>
     </div>
 </nav>
