@@ -17,7 +17,6 @@ KissGal Backend is a secure Spring Boot application that provides REST API servi
 - **Testing:**
     - JUnit 5
     - ArchUnit
-    - Embedded PostgreSQL (Zonky)
     - JaCoCo for test coverage
 
 ## Features
