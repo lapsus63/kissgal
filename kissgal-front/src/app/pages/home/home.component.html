@@ -1,13 +1,65 @@
 <div class="section">
-  <header>
-    <p class="slogan">{{ 'HomePage.Slogan' | translate }}</p>
-  </header>
+
+  @if (!isAuthenticated()) {
+    <header>
+      <p class="slogan">{{ 'Home.Slogan' | translate }}</p>
+    </header>
+  }
 
   <main>
     <section>
-        <mat-divider/>
-        <p>Content</p>
-        <mat-divider/>
+
+      <ng-container *kaHasRoles="['ROLE_USER']">
+        <h2>{{ 'Home.TitlePrivateGalleries' | translate }}</h2>
+        <div class="cards-container">
+          <div class="cards-grid">
+            @for (gallery of privateGalleries; track gallery.id) {
+              <ng-container
+                [ngTemplateOutlet]="galleryCardTemplate"
+                [ngTemplateOutletContext]="{ gallery: gallery }">
+              </ng-container>
+            }
+          </div>
+        </div>
+      </ng-container>
+
+      <h2>{{ 'Home.TitlePublicGalleries' | translate }}</h2>
+      <div class="cards-container">
+        <div class="cards-grid">
+          @for (gallery of publicGalleries; track gallery.id) {
+            <ng-container
+              [ngTemplateOutlet]="galleryCardTemplate"
+              [ngTemplateOutletContext]="{ gallery: gallery }">
+            </ng-container>
+          }
+        </div>
+      </div>
+
     </section>
   </main>
 </div>
+
+
+<!-- Reusable template -->
+<ng-template #galleryCardTemplate let-gallery="gallery" let-buttonText="buttonText">
+  <mat-card class="card-item" (click)="onOpenGallery(gallery)" tabindex="0" role="button">
+    <mat-card-header>
+      <div mat-card-avatar class="card-avatar">
+        <img ngSrc="assets/icons/favicon_032.png" [alt]="'TODO title thumbnail'" width="32" height="32">
+      </div>
+      <mat-card-title>{{ 'TODO ' + gallery.title }}</mat-card-title>
+      <mat-card-subtitle>{{ 'TODO ' + gallery.subTitle }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <img mat-card-image priority ngSrc="assets/icons/favicon_300_nb.png" [alt]="'TODO title thumbnail'" width="300" height="300">
+
+    <mat-card-content>
+      <p>{{ 'TODO ' + gallery.description }}</p>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="primary">{{ 'Home.GalleryMore' | translate }}...</button>
+      <button mat-icon-button><mat-icon>favorite_border</mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
+</ng-template>

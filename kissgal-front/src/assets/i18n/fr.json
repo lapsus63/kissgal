@@ -1,7 +1,10 @@
 {
-  "HomePage": {
+  "Home": {
+    "GalleryMore": "Voir plus",
     "Home": "Page d'accueil",
     "Title": "Kissgal v2",
+    "TitlePrivateGalleries": "Galeries privées",
+    "TitlePublicGalleries": "Galeries publiques",
     "Slogan": "Exposez votre talent au monde entier : partagez vos œuvres en quelques clics grâce à votre galerie en ligne intuitive et accessible à tous."
   },
   "Menu": {

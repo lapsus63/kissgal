@@ -45,9 +45,7 @@
 
 span.action-item, a.action-item {
   cursor: pointer;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 5px 15px;
   margin-left: 5px;
   margin-right: 5px;
@@ -58,4 +56,8 @@ a.home-item {
   img {
     vertical-align: bottom;
   }
+}
+
+a.home-item:hover {
+  background-color: transparent;
 }

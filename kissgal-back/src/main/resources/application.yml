@@ -12,11 +12,21 @@ application:
   deploy-date: DEV
   cors:
     allowedOrigins: ${SPRING_APP_ALLOWED_ORIGINS}
+    allowedMethods: GET,POST,PUT,DELETE,OPTIONS
+    allowedHeaders: Authorization,Content-Type
+    allowedCedentials: false
+    maxAge: 3600
+
+
+logging:
+  level:
+    root: ${SPRING_LOG_LEVEL_ROOT}
+    com.infovergne.kissgal: ${SPRING_LOG_LEVEL_APP}
 
 ## Server connections configuration
 server:
   max-http-request-header-size: 8KB # default is 8KB
-  port: 8084
+  port: 8080
   tomcat:
     max-http-form-post-size: 2MB
 

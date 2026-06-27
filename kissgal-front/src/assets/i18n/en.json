@@ -1,7 +1,10 @@
 {
-  "HomePage": {
+  "Home": {
+    "GalleryMore": "More",
     "Home": "Home",
     "Title": "Kissgal",
+    "TitlePrivateGalleries": "Private galleries",
+    "TitlePublicGalleries": "Public galleries",
     "Slogan": "Showcase your talent to the world: share your works in just a few clicks with your intuitive and accessible online gallery."
   },
   "Menu": {

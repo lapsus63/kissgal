@@ -37,7 +37,7 @@ export class AppComponent {
   }
 
   private updateTitle() {
-    this.translateService.get('HomePage.Title').subscribe(title => {
+    this.translateService.get('Home.Title').subscribe(title => {
       this.titleService.setTitle(title);
     });
   }

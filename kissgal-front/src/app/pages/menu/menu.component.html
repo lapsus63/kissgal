@@ -6,6 +6,7 @@
           <mat-icon>menu</mat-icon>
         </button>
         <mat-menu #menuLeft="matMenu">
+          <a mat-menu-item routerLink="/gallery">MyFirstGallery</a>
           <a mat-menu-item routerLink="/homeguard" *kaHasRoles="['ROLE_ADMIN']">Homeguard</a>
           <a mat-menu-item routerLink="/profile" *kaHasRoles="['ROLE_USER']">Profile</a>
         </mat-menu>
@@ -26,6 +27,8 @@
     <div>
         <!-- Menu standard pour desktop -->
         <div class="standard-menu">
+            <a routerLink="/gallery/firstgal" class="action-item">Public Gallery 1</a>
+            <a routerLink="/gallery/secondgal" class="action-item">Public Gallery 2</a>
             <a routerLink="/homeguard" class="action-item" *kaHasRoles="['ROLE_ADMIN']">Homeguard</a>
             <a routerLink="/profile" class="action-item" *kaHasRoles="['ROLE_USER']">Profile</a>
         </div>
